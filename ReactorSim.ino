@@ -1,8 +1,8 @@
 /*
-  Mass Flow Controller Simulation.
+  Reactor Simulation.
 
-  Made 25-07-2020
-  by Noah Caleanu
+  Made by Noah Caleanu on 25-07-2020
+  Authors: Noah Caleanu,
 
 */
 #include <stdio.h>
@@ -11,20 +11,13 @@
 #include "Mfc.h"
 #include "Heattape.h"
 
-#define START_HEAT 1
-#define STOP_HEAT 0
-
-#define dummy_num 0 // dont remove me
-#define H2_ID 1
-#define CO2_ID 2
-#define Ar_ID 3
 
 #define MFC_OUT 9
-#define MFC_SETPOINT 5
 #define MFC_IN A0 
 
-Mfc MFC_H2(dummy_num); // for some reason class only works when i have an int given in
-Heattape heat_tape;
+// Note this should NOT be here normally and is only here for testing. this should be on firmware arduino
+MassFlowController MFC_Controller; // Controls all MFCs
+Heattape heat_tape;               // Controls heat tape
 
 // Setup runs once
 void setup() {
@@ -34,18 +27,16 @@ void setup() {
   // Pin to output a flowrate with mock data
   pinMode(MFC_OUT, OUTPUT);
   digitalWrite(MFC_OUT, LOW);
-  // Pin to control flowrate
+  // Pin to read flowrate
+  pinMode(MFC_IN, INPUT);
 
-  /*
-  // Initialize the reactor firmware
-  MFC_H2.init(dummy_num);
+  
+  // Print ID and rate of the reactor firmware object
   delay(500); // leave this delay in to see initial values printed below
-  Serial.print("MFC ID: ");
-  Serial.println(MFC_H2.ID);
   Serial.print("MFC rate: ");
-  Serial.println(MFC_H2.rate);
+  Serial.println(MFC_Controller.rate);
   Serial.println();
-  */
+  
 }
 
 
@@ -75,12 +66,8 @@ struct FlowPacket {
   uint32_t timestamp;
   float datapoint;
 };
-/*
-// initial value if mock data is increasing flowrate
-//float virt_flow = 950;
-*/
 
-// initial value if mock data is decreasing flowrate
+// random initial value mock data
 float virt_flow = 500;
 
 int setpoint = 0;
@@ -109,14 +96,8 @@ void loop() {
 
     }
 
-    /*
-    // Mock data increasing flowrate
-    virt_flow += ((float)random(0, 10)) ; 
-    */
-   // Mock data decreasing flowrate
-   // virt_flow += ((float)random(-10, 0)) ;
-    
     /* Flow control operation */
+
     setpoint = analogRead(MFC_IN);
     Serial.print("Set point received: ");
     Serial.println(setpoint);

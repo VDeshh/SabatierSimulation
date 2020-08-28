@@ -1,5 +1,5 @@
 /*
-  Heattape Simulation. Module
+  Heattape Firmware
   This is meant to emulate the operations of heattape hardware we do not have access to right now
 
   Made 11-08-2020
@@ -12,8 +12,8 @@
 class Heattape {
     public:
         Heattape();
-        int temp;
-        void inc_temp(int);
+        int temp;           // current heat tape temperature
+        void inc_temp(int); // Heattape PCB takes in digital pulse and increases temp for a set time based on that.
 };
 
 

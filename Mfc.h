@@ -1,24 +1,21 @@
 /*
-  Mass Flow Controller Simulation Module. 
-  This is meant to emulate the operations of MFC hardware we do not have access to right now
+  Mass Flow Controller Firmware template 
 
-  Made 25-07-2020
-  by Noah Caleanu
-
+  Made 25-07-2020 by Noah Caleanu
+  Authors: Noah Caleanu, 
 */
 
 #ifndef MFC_H
 #define MFC_H
 
-class Mfc {
+class MassFlowController {
     public: 
-        Mfc(int);
-        int ID;
-        int rate;
-        void init(int);
-        int set_flow(float);
-        int read_flow(void);
-        void purge(void);
+        MassFlowController();
+        //int ID; // we need IDs to differentiate between the 3 MFCs
+        int rate; // each MFC will have a flowrate
+        int set_flow(float, int);  // function to set flow for a specific MFC 
+        int read_flow(int);  // function to read flowrates for MFCs
+        void purge(void);     // function to purge reactor with Argon
 };
 
 #endif

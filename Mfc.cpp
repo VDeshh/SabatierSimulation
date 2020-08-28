@@ -1,6 +1,6 @@
 /*
-  Mass Flow Controller Simulation Module.
-  This is meant to emulate the operations of MFC hardware we do not have access to right now
+  Mass Flow Controller firmware.
+  This is a code meant to control MFC operations. 
 
   Made 25-07-2020
   by Noah Caleanu
@@ -11,83 +11,56 @@
 #include "Arduino.h"
 
 // declare the pins
-#define OUTPUT_H2 9 // H2
-#define READING_H2 A0 
+#define SETPOINT_H2 9 // H2
+#define FLOWRATE_H2 A0 
 
-#define OUTPUT_TO_MFC_CO2 11 // CO2
-#define MASSFLOW_READING_CO2 A1
+#define SETPOINT_CO2 11 // CO2
+#define FLOWRATE_CO2 A1
 
-#define OUTPUT_TO_MFC_Ar 13 // Ar
-#define MASSFLOW_READING_Ar A2
+#define SETPOINT_Ar 13 // Ar
+#define FLOWRATE_Ar A2
 
-#define PURGE_PIN 3 // purge pin
-#define ARGON_SETPOINT_SW 5
-
-#define H2_ID 1
-#define CO2_ID 2
-#define Ar_ID 3
 
 #define PURGE_PERIOD 10 // period to delay to purge in milliseconds
-#define DISCONNECT 0 // duty cycle to send 0V
-#define CONNECT 255 // duty cycle to send 5V
+#define DISCONNECT 0    // duty cycle to send 0V
+#define CONNECT 255     // duty cycle to send 5V
 
 
-Mfc::Mfc(int dummy_num) {
-    int id = dummy_num;
-    int rate = 0;
-    int* rate_p = &rate;
+MassFlowController::MassFlowController(/*int unique_id*/) {
+    int rate = 0; // set to 0 so it isnt garbage value, but it should be read from analog pin in method below
+    
+    // Set input and output pins for each of the MFCs here
+    pinMode(FLOWRATE_H2, INPUT); 
+    pinMode(SETPOINT_H2, OUTPUT);
 
-    // pins for a single for a single MFC
-    pinMode(OUTPUT_H2, OUTPUT); // Declare the output to the MFC
-    pinMode(READING_H2, INPUT); // pin for flowrate read by MFC
-    // pinMode(PURGE_PIN, OUTPUT);
-    // pinMode(ARGON_SETPOINT_SW, OUTPUT);
+    pinMode(FLOWRATE_CO2, INPUT); 
+    pinMode(SETPOINT_CO2, OUTPUT);
+
+    pinMode(FLOWRATE_Ar, INPUT); 
+    pinMode(SETPOINT_Ar, OUTPUT);
+    
 }
 
 
 /* ----------------------- PUBLIC METHODS --------------------------------------------------------------------*/
 
-// init function sets valves closed bc the MFCs are nominally closed
-void Mfc::init(int dummy_num){
-    analogWrite(OUTPUT_H2, DISCONNECT); // NC valves  
+// setflow is function to take in a desired flowrate in L/min, convert to analog value, and apply it if above 0 and below 1023 
+int MassFlowController::set_flow(float desired_flowrate, int MFC_ID){
+   
 }
 
-// setflow is function to take in a desired flowrate and apply it if valid
-int Mfc::set_flow(float desired_flowrate){
-    int rate;
-
-    // flow rate below 0 L/min is nonsensical 
-    if (desired_flowrate < 0){
-        rate = 0;
-    }
-    // MFC doesnt operate above 2 L/min
-    else if (desired_flowrate > 2) {
-        rate = 1023;
-    }
-    // Valid input in range [0, 2] L/min
-    else {
-        rate = ((desired_flowrate/2)*1023); // Linearly map the input to an int in range 0-1023
-    }
-    // Apply setpoint to the corresponding MFC
-    analogWrite(OUTPUT_H2, rate);
-
-    return rate;
-}
-
-// Read flow returns the value from a specified MFC
-//  outputs: reading: measured from mfc sensor. 
-int Mfc::read_flow(void){
-    // read flow rate from MFC
-    int reading = 0;
-    reading = analogRead(READING_H2);  
-
-    return reading;
+// Read flowrate of certain MFC.
+// Returns an analog value corresponding to flowrate
+int MassFlowController::read_flow(int MFC_ID){
+    // analog read flow rate from MFC with ID 
+    
+    
 }
 
 
 // Purge is fancy terms for opening valve 100%
-void Mfc::purge(void) {
-   analogWrite(OUTPUT_H2, CONNECT); // open valve all the way
+void MassFlowController::purge(void) {
+  // Only ever purge using the Argon MFC
 }
 
 
