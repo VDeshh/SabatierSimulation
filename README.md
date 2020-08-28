@@ -14,9 +14,9 @@ This is a repository to write reactor firmware, as well as a software simulated 
                \ /                                 |
                 |                                  |
          Firmware Mega --------------> Reactor Simulator Mega
-                |                                  |
-                |                                  |
-               GUI                               Voltmeter
+                ^                                  
+                |                                  
+               GUI                              
 
 
 ### Steps to Run
