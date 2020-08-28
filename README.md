@@ -10,10 +10,10 @@ This is a repository to write reactor firmware, as well as a software simulated 
 - ReactorSim.ino simulates the reactor hardware (Mass flow controllers, Heat tape)
 - Mfc.h and Heattape.h are libraries to control hardware
 
-                                  Mfc.h    Heattape.h                  ReactorSim.ino 
-                                       \ /                                 |
-                                        |                                  |
-                                 Firmware Mega -------------------> Reactor Simulator Mega 
+         Mfc.h    Heattape.h                  ReactorSim.ino 
+               \ /                                 |
+                |                                  |
+            Firmware Mega -------------------> Reactor Simulator Mega --------> Voltmeter
 
 
 ### Steps to Run
