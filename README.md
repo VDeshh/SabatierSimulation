@@ -13,8 +13,8 @@ This is a repository to write reactor firmware, as well as a software simulated 
          Mfc.h    Heattape.h                  ReactorSim.ino 
                \ /                                 |
                 |                                  |
-            Firmware Mega -------------------> Reactor Simulator Mega --------> Voltmeter
-
+User ----> Firmware Mega -------------------> Reactor Simulator Mega --------> Voltmeter
+inputs
 
 ### Steps to Run
 After cloning repo locally, please follow the steps:
