@@ -7,8 +7,8 @@ This is a repository to write reactor firmware, as well as a software simulated 
  - (optional) multimeter
 
 ## Navigating Folder
-- ReactorSim.ino runs on one Arduino Mega to simulate the reactor hardware (Mass flow controllers, Heat tape)
-- Mfc.h and Heattape.h are libraries to run firmware code on second Ardunio Mega, which controls hardware
+- ReactorSim.ino simulates the reactor hardware (Mass flow controllers, Heat tape)
+- Mfc.h and Heattape.h are libraries to control hardware
 
                                   Mfc.h    Heattape.h                  ReactorSim.ino 
                                        \ /                                 |
@@ -19,7 +19,9 @@ This is a repository to write reactor firmware, as well as a software simulated 
 ### Steps to Run
 After cloning repo locally, please follow the steps:
 1. Install VS Code with Arduino Extension
-2. Initialize baud rate to 115200, select COM port.
-3. Upload ReactorSim.ino to one Ardunio Mega (Simulating hardware)
-4. 
+2. Initialize baud rate to 115200, select COM port for Reactor Simulator mega.
+3. Upload ReactorSim.ino 
+4. Open Serial monitor in VS Code
+5. Give some test setpoints (3.3V, 0V, 5V) into pin A0. In serial monitor flow rate should approach setpoint and lock on.
+
 
